@@ -1,5 +1,6 @@
 Emilio Pinelo Landarte - A01710103
-# TC.1030.301 Proyecto POO - SISTEMA DE RESERVACIONES DE HOTEL
+# TC.1030.301 Proyecto POO 
+# SISTEMA DE RESERVACIONES DE HOTEL
 
 ## CONTEXTO/UML (Avance 1)
 Para este proyecto decidí crear un sistema de reservaciones de un hotel. La idea principal del programa es generar una serie de reservaciones de hotel para los clientes de diferentes hoteles. El cliente tendrá la opción de elegir el tipo de habitación que deseé y se le hará la cotización y confirmación de su reservación con los métodos correspondientes. 
