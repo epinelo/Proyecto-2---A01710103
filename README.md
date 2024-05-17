@@ -1,5 +1,7 @@
 Emilio Pinelo Landarte - A01710103
+
 TC.1030.301 Proyecto POO 
+
 # SISTEMA DE RESERVACIONES DE HOTEL
 
 ## CONTEXTO/UML (Avance 1)
