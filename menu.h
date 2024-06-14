@@ -48,7 +48,7 @@ void Menu::iniciar() {
     while (true) {
         cout << endl;
         cout << "Seleccione un hotel:" << endl;
-        // Ciclo for que itera sobre el vector hoteles 
+        // Ciclo for que itera sobre el vector hoteles
         for (size_t i = 0; i < hoteles.size(); ++i) {
             // Imprime una lista de los hoteles creados
             cout << i + 1 << ". " << hoteles[i].getNombre() << endl;
@@ -57,11 +57,14 @@ void Menu::iniciar() {
         cout << "Opción: ";
         int opcionHotel;
         // Lectura y verificación de la entrada
-        // Mientras la entrada sea leída correctamente, sea menor que uno o mayor que el tamaño del vector + 1, se marcará error
-        while (!(cin >> opcionHotel) || opcionHotel < 1 || opcionHotel > hoteles.size()+1) {
+        // Mientras la entrada sea leída correctamente, sea menor que uno
+        //o mayor que el tamaño del vector + 1, se marcará error
+        while (!(cin >> opcionHotel) || opcionHotel < 1 ||
+         opcionHotel > hoteles.size()+1) {
             cout << "Opción no válida. Introduzca nuevamente: ";
             cin.clear(); // Eliminar el estado de error de cin
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignorar la entrada incorrecta para volver a pedirla
+            // Ignorar la entrada incorrecta para volver a pedirla
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
         if (opcionHotel == hoteles.size() + 1) {
@@ -78,12 +81,14 @@ void Menu::iniciar() {
             cout << "Seleccione una opción: ";
             int opcion;
             // Lectura y verificación de la entrada
-            // Mientras la entrada sea leída correctamente, sea menor que uno o mayor que 5, se marcará error
+            // Mientras la entrada sea leída correctamente,
+            // sea menor que uno o mayor que 5, se marcará error
             while (!(cin >> opcion) || opcion < 1 || opcion > 5) {
                 cout << endl;
                 cout << "Opción no válida. Introduzca nuevamente: ";
                 cin.clear(); // Eliminar el estado de error de cin
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignorar la entrada incorrecta para volver a pedirla
+                // Ignorar la entrada incorrecta para volver a pedirla
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
 
             // Instrucciones para cada opción del menú
@@ -124,7 +129,8 @@ void Menu::mostrarMenu() {
 }
 
 // Opción 1:
-// Utiliza métodos de la clase Hotel para mostrar la información y las habitaciones del hotel seleccionado
+// Utiliza métodos de la clase Hotel para mostrar la información y las
+// habitaciones del hotel seleccionado
 void Menu::mostrarDetallesHotel(Hotel& hotel) {
     hotel.mostrarDetalles();
     hotel.imprimeHabitaciones();
@@ -134,42 +140,48 @@ void Menu::mostrarDetallesHotel(Hotel& hotel) {
 void Menu::agregarHabitacion(Hotel& hotel) {
     int tipo;
     cout << endl;
-    // Lista de tipos de habitaciones 
+    // Lista de tipos de habitaciones
     cout << "Seleccione el tipo de habitación:" << endl;
     cout << "1. Simple" << endl;
     cout << "2. Doble" << endl;
     cout << "3. Suite" << endl;
     cout << "Opción: ";
     // Lectura y verificación de la entrada
-    // Mientras la entrada sea leída correctamente, sea menor que uno o mayor que 3, se marcará error
+    // Mientras la entrada sea leída correctamente,
+    // sea menor que uno o mayor que 3, se marcará error
     while (!(cin >> tipo) || tipo < 1 || tipo > 3) {
         cout << endl;
         cout << "Opción no válida. Introduzca nuevamente: ";
         cin.clear(); // Eliminar el estado de error de cin
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignorar la entrada incorrecta para volver a pedirla
+        // Ignorar la entrada incorrecta para volver a pedirla
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
     // Inicializa un apuntador de tipo Habitacion* nulo
     Habitacion* habitacion = nullptr;
 
-    // Creación dinámica de un objeto de tipo Habitacion según la opción seleccionada
+    // Creación dinámica de un objeto de tipo Habitacion
+    // según la opción seleccionada
     switch (tipo) {
         case 1:
-            habitacion = new HabitacionSimple(); // Crea una nueva HabitacionSimple
+            // Crea una nueva HabitacionSimple
+            habitacion = new HabitacionSimple();
             break;
         case 2:
-            habitacion = new HabitacionDoble(); // Crea una nueva HabitacionDoble
+            // Crea una nueva HabitacionDoble
+            habitacion = new HabitacionDoble();
             break;
         case 3:
             habitacion = new Suite(); // Crea una nueva Suite
             break;
         default:
             cout << endl;
-            cout << "Opción no válida" << endl;    
-            return;                               
+            cout << "Opción no válida" << endl;
+            return;
     }
 
-    // Se agrega la habitación creada al hotel utilizando agregarHab de la clase Hotel
+    // Se agrega la habitación creada al hotel utilizando
+    // agregarHab de la clase Hotel
     hotel.agregarHab(habitacion);
     cout << endl;
     cout << "Habitación agregada exitosamente." << endl;
@@ -178,24 +190,28 @@ void Menu::agregarHabitacion(Hotel& hotel) {
 // Se genera la reservación del cliente
 void Menu::hacerReservacion(Hotel& hotel) {
     // Crear un objeto de tipo Cliente por omisión
-    Cliente cliente; 
+    Cliente cliente;
 
-    // Lista de habitaciones disponibles utilizando buscarHabDisp de la clase Hotel
+    // Lista de habitaciones disponibles utilizando
+    // buscarHabDisp de la clase Hotel
     hotel.buscarHabDisp();
 
     int opcion;
-    cout << "Seleccione una habitación para reservar:" << endl; 
+    cout << "Seleccione una habitación para reservar:" << endl;
 
     // Lectura y verificación de la entrada
-    // Mientras la entrada sea leída correctamente, sea menor que uno o mayor que el número de habitaciones, se marcará error
-    while (!(cin >> opcion) || opcion < 1 || opcion > hotel.getNhabitaciones()) {
+    // Mientras la entrada sea leída correctamente, sea menor que uno o
+    // mayor que el número de habitaciones, se marcará error
+    while (!(cin >> opcion) || opcion < 1 || opcion > hotel.getNhabitaciones())
+    {
         cout << "Opción no válida. Introduzca nuevamente: ";
         cin.clear(); // Eliminar el estado de error de cin
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignorar la entrada incorrecta para volver a pedirla
+        // Ignorar la entrada incorrecta para volver a pedirla
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
-    // Se obtiene un puntero a la habitación seleccionada por el usuario 
-    Habitacion* habitacion = hotel.getHabitaciones()[opcion - 1]; 
+    // Se obtiene un puntero a la habitación seleccionada por el usuario
+    Habitacion* habitacion = hotel.getHabitaciones()[opcion - 1];
 
     // Si el apuntador sigue siendo nulo se marcará error
     if (habitacion == nullptr) {
@@ -212,8 +228,9 @@ void Menu::hacerReservacion(Hotel& hotel) {
     // Se crea un objeto de tipo Reservacion por omisión
     Reservacion reservacion(cliente, habitacion, &hotel);
 
-    // Se confirma la reservación utilizando confirmaReservacion() de la clase Reservacion 
-    reservacion.confirmaReservacion(); 
+    // Se confirma la reservación utilizando
+    // confirmaReservacion() de la clase Reservacion
+    reservacion.confirmaReservacion();
 }
 
 #endif
