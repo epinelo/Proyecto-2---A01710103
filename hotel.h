@@ -1,30 +1,47 @@
+/*
+ * Proyecto POO TC1030 - Hotel implementación
+ * Emilio Pinelo Landarte - A01710103
+ * 14/06/2024
+ * SISTEMA DE RESERVACIONES DE CADENA HOTELERA
+ * En este archivo se definen e implementan las clases:
+ * - Habitacion
+ * - HabitacionSimple
+ * - HabitacionDoble
+ * - Suite
+ * - Cliente
+ * - Hotel
+ * - Reservacion
+*/
+
 #ifndef HOTEL_H
 #define HOTEL_H
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <iomanip>
-#include <chrono>
-#include <ctime>
+#include <iostream> // Para imprimir
+#include <string> // Para manipulación de cadenas de caracteres
+#include <vector> // Para el uso de vectores
+#include <iomanip> // Para manipulación de la entrada/salida 
+
 
 using namespace std;
 
-// Clase Habitacion
+// Clase Habitacion (clase abstracta)
 
 class Habitacion {
+// Variables de instancia protegidas
 protected:
     int numero;
     string tipo;
     double precio;
     bool disponibilidad;
 
+// Métodos públicos
 public:
-    Habitacion();
+    Habitacion(string t, double p); // Constructor por omisón
     Habitacion(int num, string t, double p, bool d);
-    virtual void mostrarDetalles() const = 0;
+    virtual void mostrarDetalles() const = 0; // Método abstracto
     void cambiarDisp();
-    virtual void calcularPrecio() = 0;
+    virtual double calcularPrecio() = 0; // Método abstracto
+    // Getters y Setters
     int getNumero() const {return numero;};
     string getTipo() const {return tipo;};
     double getPrecio() const {return precio;};
@@ -34,34 +51,45 @@ public:
     void setPrecio(double p) {precio = p;};
 };
 
-// Métodos Habitacion
+// Implementación de métodos Habitacion
 
-Habitacion::Habitacion() : numero(404), tipo("Suite"), precio(1000), disponibilidad(true) {}
+Habitacion::Habitacion(string t, double p) : numero(404), tipo(t), precio(p), disponibilidad(true) {}
 
 Habitacion::Habitacion(int num, string t, double p, bool d) : numero(num), tipo(t), precio(p), disponibilidad(d) {}
 
+// Cambio de disponibilidad de una habitación
 void Habitacion::cambiarDisp() {
     disponibilidad = !disponibilidad;
 }
 
-// Clase HabitacionSimple
+// Clases derivadas de clase base Habitacion
+
+// Clase HabitacionSimple derivada de Habitacion
 
 class HabitacionSimple : public Habitacion {
+// Variables de instancia privadas
 private:
     string vista;
 
+// Métodos públicos
 public:
+    HabitacionSimple(); // Constructor por omisión
     HabitacionSimple(int num, bool d, string v);
+    // Métodos sobreescritos
     void mostrarDetalles() const;
-    void calcularPrecio();
+    double calcularPrecio();
+    // Getter y Setter
     string getVista() const {return vista;};
     void setVista(string v) {vista = v;};
 };
 
-// Métodos HabitacionSimple
+// Implementación de métodos HabitacionSimple
+
+HabitacionSimple::HabitacionSimple() : Habitacion("Simple", 150), vista("Especial") {}
 
 HabitacionSimple::HabitacionSimple(int num, bool d, string v) : Habitacion(num, "Simple", 150, d), vista(v) {}
 
+// Infromación sobre una habitación simple
 void HabitacionSimple::mostrarDetalles() const {
     cout << "Habitación Simple #" << numero << endl;
     cout << "Disponibilidad: " << (disponibilidad ? "Sí" : "No") << endl;
@@ -70,35 +98,43 @@ void HabitacionSimple::mostrarDetalles() const {
     cout << endl;
 }
 
-void HabitacionSimple::calcularPrecio() {
+// Cálculo del precio de una habitación simple, con o sin vista especial.
+double HabitacionSimple::calcularPrecio() {
     if (vista == "Especial") {
         precio = precio + 100;
     }
-    cout << "Precio calculado por noche en la habitación " << numero << ": $" << precio << endl;
-    cout << endl;
+    return precio;
 }
 
-// Clase HabitacionDoble
+// Clase HabitacionDoble derivada de Habitacion
 
 class HabitacionDoble : public Habitacion {
+// Variables de instancia privadas
 private:
     string vista;
     bool balcon;
 
+// Métodos públicos
 public:
+    HabitacionDoble(); // Constructor por omisión
     HabitacionDoble(int num, bool d, string v, bool b);
+    // Métodos sobreescritos
     void mostrarDetalles() const;
-    void calcularPrecio();
+    double calcularPrecio();
+    // Getters y Setters
     string getVista() const {return vista;};
     void setVista(string v) {vista = v;};
     bool getBalcon() const {return balcon;};
     void setBalcon(bool b) {balcon = b;};
 };
 
-// Métodos HabitacionDoble 
+// Implementación de métodos HabitacionDoble 
+
+HabitacionDoble::HabitacionDoble() : Habitacion("Doble", 300), vista("Especial"), balcon(true) {}
 
 HabitacionDoble::HabitacionDoble(int num, bool d, string v, bool b) : Habitacion(num, "Doble", 300, d), vista(v), balcon(b) {}
 
+// Información de una habitación doble
 void HabitacionDoble::mostrarDetalles() const {
     cout << "Habitación Doble #" << numero << endl;
     cout << "Disponibilidad: " << (disponibilidad ? "Sí" : "No") << endl;
@@ -108,41 +144,46 @@ void HabitacionDoble::mostrarDetalles() const {
     cout << endl;
 }
 
-void HabitacionDoble::calcularPrecio() {
+// Cálculo del precio de una habitación doble, con o sin vista especial y con o sin balcón
+double HabitacionDoble::calcularPrecio() {
     if (vista == "Especial") {
         precio = precio + 100;
     }
     if (balcon) {
             precio = precio + 250;
         }
-    cout << "Precio calculado por noche en la habitación " << numero << ": $" << precio << endl;
-    cout << endl;
+    return precio;
 }
 
-// Clase Suite
+// Clase Suite derivada de Habitacion
 
 class Suite : public Habitacion {
+// Variables de instancia privadas
 private:
     string vista;
     int n_cuartos;
 
+// Métodos públicos
 public:
-    Suite();
+    Suite(); // Constructor por omisión
     Suite(int num, bool d, string v, int nc);
+    // Métodos sobreescritos
     void mostrarDetalles() const;
-    void calcularPrecio();
+    double calcularPrecio();
+    // Getters y Setters
     string getVista() const {return vista;};
     void setVista(string v) {vista = v;};
     int getNcuartos() const {return n_cuartos;};
     void setNcuartos(int nc) {n_cuartos = nc;};
 };
 
-// Métodos Suite
+// Implementación de métodos Suite
 
-Suite::Suite() : Habitacion(), vista("Especial"), n_cuartos(4) {}
+Suite::Suite() : Habitacion("Suite", 1000), vista("Especial"), n_cuartos(4) {}
 
 Suite::Suite(int num, bool d, string v, int nc) : Habitacion(num, "Suite", 1000, d), vista(v), n_cuartos(nc) {}
 
+// Información de una suite
 void Suite::mostrarDetalles() const {
     cout << "Suite #" << numero << endl;
     cout << "Disponibilidad: " << (disponibilidad ? "Sí" : "No") << endl;
@@ -152,40 +193,44 @@ void Suite::mostrarDetalles() const {
     cout << endl;
 }
 
-void Suite::calcularPrecio() {
+// Cálculo de una habitación en base al número de cuartos y si tiene o no vista especial
+double Suite::calcularPrecio() {
     if (vista == "Especial") {
         precio = precio + (n_cuartos*200) + 100;
     } else {
         precio = precio + (n_cuartos*200);
     }
-    cout << "Precio calculado por noche en la habitación " << numero << ": $" << precio << endl;
-    cout << endl;
+    return precio;
 }
 
 // Clase Cliente
 
 class Cliente {
+// Variables de instancia privadas
 private:
     string nombre;
     string telefono;
     string email;
 
+// Métodos públicos
 public:
-    Cliente();
+    Cliente(); // Constructoe por omisión
     Cliente(string n, string t, string e);
     void mostrarDetalles() const;
     void actualizarInfo(const string& n, const string& t, const string& e);
+    // Gatters
     string getNombre() const {return nombre;};
     string getTelefono() const {return telefono;};
     string getEmail() const {return email;};
 };
 
-// Métodos Cliente
+// Implementación de métodos Cliente
 
 Cliente::Cliente() : nombre("Emilio"), telefono("55 6790 6442"), email("a01710103@tec.mx") {}
 
 Cliente::Cliente(string n, string t, string e) : nombre(n), telefono(t), email(e) {}
 
+// Información sobre el cliente
 void Cliente::mostrarDetalles() const {
     cout << "Cliente: " << nombre << endl;
     cout << "Teléfono: " << telefono << endl;
@@ -193,6 +238,7 @@ void Cliente::mostrarDetalles() const {
     cout << endl;
 }
 
+// Actualización de la información del cliente (Setter)
 void Cliente::actualizarInfo(const string& n, const string& t, const string& e) {
     nombre = n;
     telefono = t;
@@ -202,77 +248,88 @@ void Cliente::actualizarInfo(const string& n, const string& t, const string& e) 
 // Clase Hotel
 
 class Hotel {
+// Variables de intsancia privadas
 private:
     string nombre;
     string direccion;
     int n_habitaciones;
-    vector<Habitacion*> habitaciones;
+    vector<Habitacion*> habitaciones; // Vector de apuntadores a objetos de tipo Habitacion
 
+// Métodos públicos
 public:
-    Hotel();
+    Hotel(); // Constructor por omisión
     Hotel(const string& n, const string& d);
     void agregarHab(Habitacion* hab);
     void buscarHabDisp() const;
     void mostrarDetalles() const;
+    void imprimeHabitaciones();
+    // Getters y Setters
     string getNombre() const {return nombre;};
     string getDireccion () const {return direccion;};
     int getNhabitaciones () const {return n_habitaciones;};
-    void getHabitaciones() const;
+    vector<Habitacion*> getHabitaciones() const {return habitaciones;};
 };
 
-// Métodos Hotel
+// Implementación de métodos Hotel
 
 Hotel::Hotel() : nombre("Occidental Cancún"), direccion("Blvd Kukulcan"), n_habitaciones(0) {}
 
 Hotel::Hotel(const string& n, const string& d) : nombre(n), direccion(d), n_habitaciones(0) {}
 
+// Agregar habitación al hotel
 void Hotel::agregarHab(Habitacion* hab) {
-    habitaciones.push_back(hab);
-    n_habitaciones++;
+    habitaciones.push_back(hab); // Se agrega el apuntador hab al vector habitaciones
+    n_habitaciones++; // Incrementa el número de habitaciones en el hotel
 }
 
+// Obtener una lista de las habitaciones disponibles en el hotel
 void Hotel::buscarHabDisp() const {
+    cout << endl;
     cout << "Habitaciones disponibles:" << endl;
+    // Ciclo for que itera sobre los punteros en el vector habitaciones
     for (const auto& hab : habitaciones) {
+        // Si getDisponibilidad regresa verdadero, se mostrará la información de la habitación
         if (hab->getDisponibilidad()) {
             hab->mostrarDetalles();
         }
     }
-    cout << endl;
 }
 
+// Información del hotel
 void Hotel::mostrarDetalles() const {
+    cout << endl;
     cout << "Hotel: " << nombre << endl;
     cout << "Dirección: " << direccion << endl;
     cout << "Número de habitaciones: " << n_habitaciones << endl;
 }
 
-void Hotel::getHabitaciones() const {
+// Obtener la lista de habitaciones de un hotel
+void Hotel::imprimeHabitaciones() {
     for (Habitacion* ptr : habitaciones) {
         ptr->mostrarDetalles();
     }
-    for (Habitacion* ptr : habitaciones) {
-        delete ptr;
-    }
 }
 
-// Clase Reserva
+// Clase Reservación
 
-class Reserva {
+class Reservacion {
+// Variables de instancia privadas
 private:
     string id;
     int n_noches;
     double costoTotal;
     Cliente cliente;
-    Habitacion* habitacion;
-    Hotel* hotel;
+    Habitacion* habitacion; // Apuntador de tipo Habitacion
+    Hotel* hotel; // Apuntador de tipo Hotel
 
+// Métodos públicos
 public:
-    Reserva();
-    Reserva(const string& i, int nn, const Cliente& c, Habitacion* h, Hotel* ho);
+    Reservacion(const Cliente& c, Habitacion* h, Hotel* ho); // Constructor por omisión
+    Reservacion(const string& i, int nn, const Cliente& c, Habitacion* h, Hotel* ho);
     void mostrarDetalles() const;
     void calcularCosto();
-    void confirmaReserva();
+    void confirmaReservacion();
+    // Getters y Setters
     string getID() const {return id;};
     int getNoches() const {return n_noches;};
     double getCostoT() const {return costoTotal;};
@@ -280,16 +337,17 @@ public:
     void setNoches(int nn) {n_noches = nn;};
 };
 
-// Métodos Reserva
+// Implementación de métodos Reservación
 
-Reserva::Reserva() : id("R003"), n_noches(5), cliente(), habitacion(nullptr), hotel(nullptr) {}
+Reservacion::Reservacion(const Cliente& c, Habitacion* h, Hotel* ho) : id("R003"), n_noches(5), cliente(c), habitacion(h), hotel(ho) {}
 
-Reserva::Reserva(const string& i, int nn, const Cliente& c, Habitacion* h, Hotel* ho)
+Reservacion::Reservacion(const string& i, int nn, const Cliente& c, Habitacion* h, Hotel* ho)
     : id(i), n_noches(nn), cliente(c), habitacion(h), hotel(ho) {
     calcularCosto();
 }
 
-void Reserva::mostrarDetalles() const {
+// Información de la reservación de un cliente en un hotel
+void Reservacion::mostrarDetalles() const {
     cout << "ID: " << id <<endl;
     cout << "Número de noches: " << n_noches << endl;
     cout << "Costo Total: " << costoTotal << endl;
@@ -299,18 +357,29 @@ void Reserva::mostrarDetalles() const {
     cout << endl;
 }
 
-void Reserva::calcularCosto() {
+// Cálculo del costo total según el número de noches
+void Reservacion::calcularCosto() {
+    costoTotal = habitacion->calcularPrecio();
+    cout << "Precio por noche en la habitación " << habitacion->getNumero() << ": $" << costoTotal << endl;
     costoTotal = (habitacion->getPrecio())*n_noches;
+    cout << "Total: $" << costoTotal << endl;
 }
 
-void Reserva::confirmaReserva() {
+// Confirmación de la reservación del cliente
+void Reservacion::confirmaReservacion() {
+    // Se verifica que el apuntador habitacion no sea nulo
+    if (habitacion == nullptr) {
+        cout << "Error: No se puede confirmar la reservación debido a una habitación inválida." << endl;
+        return;
+    }
+    // Se verifica la disponibilidad de la habitación 
     if (habitacion->getDisponibilidad()) {
-        habitacion->cambiarDisp();
-        cout << "Reserva de " << cliente.getNombre() << " confirmada." << endl;
+        habitacion->cambiarDisp(); //Cambia el valor de disponibilidad a falso
+        calcularCosto(); // Se calcula el costo de la reservación
+        cout << "Reservación de " << cliente.getNombre() << " confirmada." << endl;
     } else {
         cout << "La habitación no está disponible." << endl;
     }
-    cout << endl;
 }
 
 #endif
