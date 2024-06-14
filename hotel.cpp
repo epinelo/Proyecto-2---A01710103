@@ -4,7 +4,7 @@
  * 14/06/2024
  * SISTEMA DE RESERVACIONES DE CADENA HOTELERA
  * Este es un programa que simula la interacción de un usuario con un sistema de reservaciones de una cadena hotelera.
- */
+*/
 
 #include <iostream> // Para imprimir
 #include "Menu.h" // Archivo de la clase Menu
