@@ -53,9 +53,11 @@ public:
 
 // Implementación de métodos Habitacion
 
-Habitacion::Habitacion(string t, double p) : numero(404), tipo(t), precio(p), disponibilidad(true) {}
+Habitacion::Habitacion(string t, double p) : numero(404), tipo(t), precio(p),
+disponibilidad(true) {}
 
-Habitacion::Habitacion(int num, string t, double p, bool d) : numero(num), tipo(t), precio(p), disponibilidad(d) {}
+Habitacion::Habitacion(int num, string t, double p, bool d) : numero(num),
+tipo(t), precio(p), disponibilidad(d) {}
 
 // Cambio de disponibilidad de una habitación
 void Habitacion::cambiarDisp() {
@@ -85,9 +87,11 @@ public:
 
 // Implementación de métodos HabitacionSimple
 
-HabitacionSimple::HabitacionSimple() : Habitacion("Simple", 150), vista("Especial") {}
+HabitacionSimple::HabitacionSimple() : Habitacion("Simple", 150),
+vista("Especial") {}
 
-HabitacionSimple::HabitacionSimple(int num, bool d, string v) : Habitacion(num, "Simple", 150, d), vista(v) {}
+HabitacionSimple::HabitacionSimple(int num, bool d, string v) :
+Habitacion(num, "Simple", 150, d), vista(v) {}
 
 // Infromación sobre una habitación simple
 void HabitacionSimple::mostrarDetalles() const {
@@ -128,11 +132,13 @@ public:
     void setBalcon(bool b) {balcon = b;};
 };
 
-// Implementación de métodos HabitacionDoble 
+// Implementación de métodos HabitacionDoble
 
-HabitacionDoble::HabitacionDoble() : Habitacion("Doble", 300), vista("Especial"), balcon(true) {}
+HabitacionDoble::HabitacionDoble() : Habitacion("Doble", 300),
+vista("Especial"), balcon(true) {}
 
-HabitacionDoble::HabitacionDoble(int num, bool d, string v, bool b) : Habitacion(num, "Doble", 300, d), vista(v), balcon(b) {}
+HabitacionDoble::HabitacionDoble(int num, bool d, string v, bool b) :
+Habitacion(num, "Doble", 300, d), vista(v), balcon(b) {}
 
 // Información de una habitación doble
 void HabitacionDoble::mostrarDetalles() const {
@@ -144,7 +150,8 @@ void HabitacionDoble::mostrarDetalles() const {
     cout << endl;
 }
 
-// Cálculo del precio de una habitación doble, con o sin vista especial y con o sin balcón
+// Cálculo del precio de una habitación doble,
+// con o sin vista especial y con o sin balcón
 double HabitacionDoble::calcularPrecio() {
     if (vista == "Especial") {
         precio = precio + 100;
@@ -181,7 +188,8 @@ public:
 
 Suite::Suite() : Habitacion("Suite", 1000), vista("Especial"), n_cuartos(4) {}
 
-Suite::Suite(int num, bool d, string v, int nc) : Habitacion(num, "Suite", 1000, d), vista(v), n_cuartos(nc) {}
+Suite::Suite(int num, bool d, string v, int nc) :
+Habitacion(num, "Suite", 1000, d), vista(v), n_cuartos(nc) {}
 
 // Información de una suite
 void Suite::mostrarDetalles() const {
@@ -193,7 +201,8 @@ void Suite::mostrarDetalles() const {
     cout << endl;
 }
 
-// Cálculo de una habitación en base al número de cuartos y si tiene o no vista especial
+// Cálculo de una habitación en base al número de cuartos
+// y si tiene o no vista especial
 double Suite::calcularPrecio() {
     if (vista == "Especial") {
         precio = precio + (n_cuartos*200) + 100;
@@ -226,9 +235,11 @@ public:
 
 // Implementación de métodos Cliente
 
-Cliente::Cliente() : nombre("Emilio"), telefono("55 6790 6442"), email("a01710103@tec.mx") {}
+Cliente::Cliente() : nombre("Emilio"), telefono("55 6790 6442"),
+email("a01710103@tec.mx") {}
 
-Cliente::Cliente(string n, string t, string e) : nombre(n), telefono(t), email(e) {}
+Cliente::Cliente(string n, string t, string e) : nombre(n), telefono(t),
+email(e) {}
 
 // Información sobre el cliente
 void Cliente::mostrarDetalles() const {
@@ -239,7 +250,8 @@ void Cliente::mostrarDetalles() const {
 }
 
 // Actualización de la información del cliente (Setter)
-void Cliente::actualizarInfo(const string& n, const string& t, const string& e) {
+void Cliente::actualizarInfo(const string& n, const string& t, const string& e)
+{
     nombre = n;
     telefono = t;
     email = e;
@@ -253,7 +265,8 @@ private:
     string nombre;
     string direccion;
     int n_habitaciones;
-    vector<Habitacion*> habitaciones; // Vector de apuntadores a objetos de tipo Habitacion
+    // Vector de apuntadores a objetos de tipo Habitacion
+    vector<Habitacion*> habitaciones;
 
 // Métodos públicos
 public:
@@ -272,13 +285,16 @@ public:
 
 // Implementación de métodos Hotel
 
-Hotel::Hotel() : nombre("Occidental Cancún"), direccion("Blvd Kukulcan"), n_habitaciones(0) {}
+Hotel::Hotel() : nombre("Occidental Cancún"), direccion("Blvd Kukulcan"),
+n_habitaciones(0) {}
 
-Hotel::Hotel(const string& n, const string& d) : nombre(n), direccion(d), n_habitaciones(0) {}
+Hotel::Hotel(const string& n, const string& d) : nombre(n), direccion(d),
+n_habitaciones(0) {}
 
 // Agregar habitación al hotel
 void Hotel::agregarHab(Habitacion* hab) {
-    habitaciones.push_back(hab); // Se agrega el apuntador hab al vector habitaciones
+    // Se agrega el apuntador hab al vector habitaciones
+    habitaciones.push_back(hab);
     n_habitaciones++; // Incrementa el número de habitaciones en el hotel
 }
 
@@ -288,7 +304,8 @@ void Hotel::buscarHabDisp() const {
     cout << "Habitaciones disponibles:" << endl;
     // Ciclo for que itera sobre los punteros en el vector habitaciones
     for (const auto& hab : habitaciones) {
-        // Si getDisponibilidad regresa verdadero, se mostrará la información de la habitación
+        // Si getDisponibilidad regresa verdadero,
+        // se mostrará la información de la habitación
         if (hab->getDisponibilidad()) {
             hab->mostrarDetalles();
         }
@@ -324,8 +341,10 @@ private:
 
 // Métodos públicos
 public:
-    Reservacion(const Cliente& c, Habitacion* h, Hotel* ho); // Constructor por omisión
-    Reservacion(const string& i, int nn, const Cliente& c, Habitacion* h, Hotel* ho);
+    // Constructor por omisión
+    Reservacion(const Cliente& c, Habitacion* h, Hotel* ho);
+    Reservacion(const string& i, int nn, const Cliente& c, Habitacion* h,
+      Hotel* ho);
     void mostrarDetalles() const;
     void calcularCosto();
     void confirmaReservacion();
@@ -339,9 +358,11 @@ public:
 
 // Implementación de métodos Reservación
 
-Reservacion::Reservacion(const Cliente& c, Habitacion* h, Hotel* ho) : id("R003"), n_noches(5), cliente(c), habitacion(h), hotel(ho) {}
+Reservacion::Reservacion(const Cliente& c, Habitacion* h, Hotel* ho) :
+id("R003"), n_noches(5), cliente(c), habitacion(h), hotel(ho) {}
 
-Reservacion::Reservacion(const string& i, int nn, const Cliente& c, Habitacion* h, Hotel* ho)
+Reservacion::Reservacion(const string& i, int nn, const Cliente& c,
+  Habitacion* h, Hotel* ho)
     : id(i), n_noches(nn), cliente(c), habitacion(h), hotel(ho) {
     calcularCosto();
 }
@@ -360,7 +381,8 @@ void Reservacion::mostrarDetalles() const {
 // Cálculo del costo total según el número de noches
 void Reservacion::calcularCosto() {
     costoTotal = habitacion->calcularPrecio();
-    cout << "Precio por noche en la habitación " << habitacion->getNumero() << ": $" << costoTotal << endl;
+    cout << "Precio por noche en la habitación " << habitacion->getNumero() <<
+    ": $" << costoTotal << endl;
     costoTotal = (habitacion->getPrecio())*n_noches;
     cout << "Total: $" << costoTotal << endl;
 }
@@ -369,14 +391,16 @@ void Reservacion::calcularCosto() {
 void Reservacion::confirmaReservacion() {
     // Se verifica que el apuntador habitacion no sea nulo
     if (habitacion == nullptr) {
-        cout << "Error: No se puede confirmar la reservación debido a una habitación inválida." << endl;
+        cout << "Error: No se puede confirmar la reservación debido a " <<
+        "una habitación inválida." << endl;
         return;
     }
-    // Se verifica la disponibilidad de la habitación 
+    // Se verifica la disponibilidad de la habitación
     if (habitacion->getDisponibilidad()) {
         habitacion->cambiarDisp(); //Cambia el valor de disponibilidad a falso
         calcularCosto(); // Se calcula el costo de la reservación
-        cout << "Reservación de " << cliente.getNombre() << " confirmada." << endl;
+        cout << "Reservación de " << cliente.getNombre() << " confirmada." <<
+        endl;
     } else {
         cout << "La habitación no está disponible." << endl;
     }
