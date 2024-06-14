@@ -19,8 +19,8 @@
 #include <iostream> // Para imprimir
 #include <string> // Para manipulación de cadenas de caracteres
 #include <vector> // Para el uso de vectores
-#include <iomanip> // Para manipulación de la entrada/salida 
-
+#include <iomanip> // Para manipulación de la entrada/salida
+#include <limits> // Para obtener información sobre tipos de datos
 
 using namespace std;
 
